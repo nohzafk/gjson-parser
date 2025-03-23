@@ -112,7 +112,6 @@ pub fn then_keep_right(parser1: Parser(a), parser2: Parser(b)) -> Parser(b) {
 
 // Parser Primitives
 
-/// A fail parser always fails with a message
 /// A char parser matches a specific character.
 pub fn char_parser(char: String) -> Parser(String) {
   fn(input: String) {
@@ -400,7 +399,7 @@ pub fn escape_sequence_parser() -> Parser(String) {
 
   let unicode_escape_sequence =
     string_parser("\\u")
-    |> then_keep_right(satisfy_parser(is_hex_digit) |> many)
+    |> then_keep_right(satisfy_parser(is_hex_digit) |> some)
     |> map(string.concat)
     |> fn(parser) {
       fn(input: String) {
